@@ -11,18 +11,18 @@ export class UserController extends HttpStatus {
             const requestBody: User = req.body;
             requestBody.password = await hashPassword(requestBody.password);
             
-            const user = new UserModel(requestBody);
-            const result = await user.save();
-
+            const result: User = await UserModel.create(requestBody);
+        
             if(result){
-                return httpStatus.recordCreatedResponse(res, "User created successfully.", user);
+                return httpStatus.recordCreatedResponse(res, "User created successfully.", result);
             }else{
                 return httpStatus.badRequestResponse(res, "Unable to create user.");
             }
-        } catch(error: any) { 
+        } catch (error: any) { 
             return httpStatus.badRequestResponse(res, error.message);
         }
-    }
+      }
+      
 
     async signIn(req: Request, res: Response, next: NextFunction){
         const httpStatus = new HttpStatus();
@@ -33,10 +33,10 @@ export class UserController extends HttpStatus {
                 return httpStatus.badRequestResponse(res, "Invalid email or password.");
             }
 
-            const user: any = await UserModel.findOne({email});
+            const user: User = await UserModel.findOne({email});
             if(!user) return httpStatus.badRequestResponse(res, "Invalid email or password.");
 
-            const isValidPassword = await comparePassword(password, user.password);
+            const isValidPassword: boolean = await comparePassword(password, user.password);
             if(!isValidPassword) return httpStatus.badRequestResponse(res, "Invalid email or password.");
 
             httpStatus.successResponse(res, "Login successfully.", user);
