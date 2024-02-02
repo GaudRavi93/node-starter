@@ -7,5 +7,6 @@ export class UserRoutes {
 
     constructor() {
         this.route.post('/', this.userController.signUp);
+        this.route.post('/login', this.userController.signIn);
     }
 }
