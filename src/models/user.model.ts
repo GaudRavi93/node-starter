@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { isEmail } from 'validator';
 
 export interface User {
+    _id?: string;
     phone: string;
     email: string;
     password: string;
@@ -9,6 +10,7 @@ export interface User {
     firstName: string;
     createdAt?: Date;
     updatedAt?: Date;
+    token?: string;
 };
 
 const userSchema = new mongoose.Schema({
