@@ -32,3 +32,7 @@ export function generateToken(data: User){
         expiresIn: '180d',
     });
 }
+
+export function decodeToken(token: string){
+    return jwt.verify(token, process.env.JWT_SECRET);
+};

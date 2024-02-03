@@ -32,4 +32,8 @@ export class HttpStatus {
     recordCreatedResponse(res: Response, message: string, data?: any) {
         this.sendResponse(res, 201, message, data);
     }
+
+    unauthorizedResponse(res: Response, message: string, data?: any) {
+        this.sendResponse(res, 403, message, data);
+    }
 }
