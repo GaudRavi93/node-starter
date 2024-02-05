@@ -25,6 +25,39 @@ export class CategoryController extends HttpStatus {
         }
     }
 
+    async updateCategory(req: Request, res: Response, next: NextFunction){
+        const user: any = decodeToken(req);
+        const httpStatus = new HttpStatus();
+        const categoryId: string = req.params.id;
+        const requestBody: Category = req.body;
+
+        if(!categoryId) return httpStatus.badRequestResponse(res, "Category id is required.");
+
+        try{
+            const result = await CategoryModel.findOneAndUpdate(
+                {
+                    _id: categoryId,
+                    createdBy: user.id
+                },
+                {
+                    ...requestBody,
+                    updatedAt: Date.now()
+                },
+                {
+                    new :true
+                }
+            );
+
+            if(result){
+                return httpStatus.successResponse(res, "Category updated successfully.", result);
+            }else{
+                return httpStatus.badRequestResponse(res, "Unable to update category.");
+            }
+        }catch(error: any){
+            return httpStatus.badRequestResponse(res, error.message);
+        }
+    }
+
     async getCategories(req: Request, res: Response, next: NextFunction){
         const httpStatus = new HttpStatus();
         try{

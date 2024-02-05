@@ -11,5 +11,6 @@ export class CategoryRoutes {
         this.route.post("/", validateToken, this.categoryController.createCategory);
         this.route.get("/", validateToken, this.categoryController.getCategories);
         this.route.get("/:id", validateToken, this.categoryController.getCategory);
+        this.route.put("/:id", validateToken, this.categoryController.updateCategory);
     }
 }
