@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Request } from 'express';
 import { User } from '../models/user.model';
 
 interface tokenData {
@@ -33,6 +34,7 @@ export function generateToken(data: User){
     });
 }
 
-export function decodeToken(token: string){
-    return jwt.verify(token, process.env.JWT_SECRET);
+export function decodeToken(req: Request){
+    const token: string = req.header('Authorization');
+    return jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
 };

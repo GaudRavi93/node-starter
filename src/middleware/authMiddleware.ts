@@ -12,7 +12,7 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
     };
 
     try {
-        const decode: any = decodeToken(token.split(" ")[1]);
+        const decode: any = decodeToken(req);
         const user = await UserModel.findById(decode.id);
         if (!user) {
             return httpStatus.unauthorizedResponse(res, 'Access denied. Invalid user.');
